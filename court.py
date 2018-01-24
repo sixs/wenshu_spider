@@ -30,7 +30,14 @@ def get_number(guid):
 	data = {
 		'guid':guid
 	}
-	req1 = session.post(codeUrl,data=data)
+	headers = {
+		'Host':'wenshu.court.gov.cn',
+		'Origin':'http://wenshu.court.gov.cn',
+		'Referer':'http://wenshu.court.gov.cn/',
+		'X-Requested-With':'XMLHttpRequest',
+		'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
+	}
+	req1 = session.post(codeUrl,data=data,headers=headers)
 	number = req1.text
 	return number
 
@@ -47,9 +54,12 @@ def get_vjkl5(guid,number):
 		"Upgrade-Insecure-Requests":"1",
 		"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36"
 	}
-	req1 = session.get(url=url1,headers=headers1)
-	vjkl5 = req1.cookies["vjkl5"]
-	return vjkl5
+	req1 = session.get(url=url1,headers=headers1,timeout=10)
+	try:
+		vjkl5 = req1.cookies["vjkl5"]
+		return vjkl5
+	except:
+		return get_vjkl5(guid,number)
 
 def get_vl5x(vjkl5):
 	#根据vjkl5获取参数vl5x
@@ -102,8 +112,7 @@ def get_data(Param,Index,Page,Order,Direction):
 		"guid":guid
 	}
 	req2 = session.post(url=url2,headers=headers2,params=data)
-	data = json.loads(req2.text)
-	print(data)
+	print(req2.text)
 
 #搜索条件
 Param = "全文检索:*"	#搜索关键字
