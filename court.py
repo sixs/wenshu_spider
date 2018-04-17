@@ -121,12 +121,15 @@ def get_data(Param,Index,Page,Order,Direction):
 	req2 = session.post(url=url2,headers=headers2,params=data)
 	print(req2.text)
 
-#搜索条件
-Param = "全文检索:*"	#搜索关键字
-Index = 1		#第几页
-Page = 20		#每页几条
-Order = "法院层级"	#排序标准
-Direction = "asc"	#asc正序 desc倒序
+def main(): 
+	#搜索条件
+	Param = "全文检索:*"	#搜索关键字
+	Index = 1		#第几页
+	Page = 20		#每页几条
+	Order = "法院层级"	#排序标准
+	Direction = "asc"	#asc正序 desc倒序
 
-
-get_data(Param,Index,Page,Order,Direction)
+	get_data(Param,Index,Page,Order,Direction)
+	
+if __name__ == '__main__':
+	main()
