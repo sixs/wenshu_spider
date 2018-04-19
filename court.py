@@ -48,7 +48,7 @@ def get_number(guid):
 	number = req1.text
 	return number
 
-def get_vjkl5(guid,number):
+def get_vjkl5(guid,number,Param):
 	####获取cookie中的vjkl5
 	url1 = "http://wenshu.court.gov.cn/list/list/?sorttype=1&number="+number+"&guid="+guid+"&conditions=searchWord+QWJS+++"+parse.quote(Param)
 	Referer1 = url1
@@ -66,7 +66,7 @@ def get_vjkl5(guid,number):
 		vjkl5 = req1.cookies["vjkl5"]
 		return vjkl5
 	except:
-		return get_vjkl5(guid,number)
+		return get_vjkl5(guid,number,Param)
 
 def get_vl5x(vjkl5):
 	#根据vjkl5获取参数vl5x
@@ -91,7 +91,7 @@ def get_vl5x(vjkl5):
 def get_data(Param,Index,Page,Order,Direction):
 	guid = get_guid()
 	number = get_number(guid)
-	vjkl5 = get_vjkl5(guid,number)
+	vjkl5 = get_vjkl5(guid,number,Param)
 	vl5x = get_vl5x(vjkl5)
 
 	#获取数据
