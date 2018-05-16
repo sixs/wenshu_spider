@@ -1,3 +1,10 @@
+# encoding:utf-8
+"""
+author: sixseven
+topic: 爬取裁判文书网
+date: 2018-04-17
+contact: 2557692481@qq.com
+"""
 import requests
 from urllib import parse
 import execjs
@@ -41,7 +48,7 @@ def get_number(guid):
 	number = req1.text
 	return number
 
-def get_vjkl5(guid,number):
+def get_vjkl5(guid,number,Param):
 	####获取cookie中的vjkl5
 	url1 = "http://wenshu.court.gov.cn/list/list/?sorttype=1&number="+number+"&guid="+guid+"&conditions=searchWord+QWJS+++"+parse.quote(Param)
 	Referer1 = url1
@@ -59,7 +66,7 @@ def get_vjkl5(guid,number):
 		vjkl5 = req1.cookies["vjkl5"]
 		return vjkl5
 	except:
-		return get_vjkl5(guid,number)
+		return get_vjkl5(guid,number,Param)
 
 def get_vl5x(vjkl5):
 	#根据vjkl5获取参数vl5x
@@ -84,7 +91,7 @@ def get_vl5x(vjkl5):
 def get_data(Param,Index,Page,Order,Direction):
 	guid = get_guid()
 	number = get_number(guid)
-	vjkl5 = get_vjkl5(guid,number)
+	vjkl5 = get_vjkl5(guid,number,Param)
 	vl5x = get_vl5x(vjkl5)
 
 	#获取数据
@@ -114,12 +121,15 @@ def get_data(Param,Index,Page,Order,Direction):
 	req2 = session.post(url=url2,headers=headers2,params=data)
 	print(req2.text)
 
-#搜索条件
-Param = "全文检索:*"	#搜索关键字
-Index = 1		#第几页
-Page = 20		#每页几条
-Order = "法院层级"	#排序标准
-Direction = "asc"	#asc正序 desc倒序
+def main(): 
+	#搜索条件
+	Param = "全文检索:*"	#搜索关键字
+	Index = 1		#第几页
+	Page = 20		#每页几条
+	Order = "法院层级"	#排序标准
+	Direction = "asc"	#asc正序 desc倒序
 
-
-get_data(Param,Index,Page,Order,Direction)
+	get_data(Param,Index,Page,Order,Direction)
+	
+if __name__ == '__main__':
+	main()
