@@ -33,7 +33,7 @@
      3. >virtualenv --no-site-packages venv # 创建python虚拟环境
         或>virtualenv --python=python3 --no-site-packages # 指定python版本
      4. >cd venv/Scripts & activate # 进入python虚拟环境
-     5. (venv)>cd ../../2018-05-16 & pip install requirement.txt # 安装相关库
+     5. (venv)>cd ../../2018-05-16 & pip install -r requirement.txt # 安装相关库
      6. (venv)>python court.py
 
 ## 小谈采集策略 ##
