@@ -1,5 +1,5 @@
- #-*-encoding:utf-8-*-
- """
+#-*-encoding:utf-8-*-
+"""
 author: sixseven
 date: 2018-05-16
 topic: 使用opencv进行验证码识别
@@ -190,7 +190,7 @@ def get_data(Param,Page,Order,Direction):
     while(True):
 
         print('###### 第{0}页 ######'.format(Index))
-
+        
         #获取数据
         url = "http://wenshu.court.gov.cn/List/ListContent"
         headers = {
@@ -218,7 +218,8 @@ def get_data(Param,Page,Order,Direction):
 
         req = session.post(url,headers=headers,data=data)
         req.encoding = 'utf-8'
-        return_data = req.text.replace('\\','').replace('"[','[').replace(']"',']')
+        return_data = req.text.replace('\\','').replace('"[','[').replace(']"',']')\
+                    .replace('＆ｌｄｑｕｏ;', '“').replace('＆ｒｄｑｕｏ;', '”')
 
         if return_data == '"remind"' or return_data == '"remind key"':
 
@@ -229,7 +230,6 @@ def get_data(Param,Page,Order,Direction):
             number = get_number(guid)
 
         else:
-
             json_data = json.loads(return_data)
             if not len(json_data):
                 print('采集完成')
@@ -360,13 +360,13 @@ if __name__ == '__main__':
         param_list.append("审判程序:{}".format(case_process))
     if wenshu_type != '全部':
         param_list.append("文书类型:{}".format(wenshu_type))
-    param_list.append("裁判日期:{0} TO {1}".format(start_date, end_date))
+    # param_list.append("裁判日期:{0} TO {1}".format(start_date, end_date))
     if court_loc != '全部':
         param_list.append("法院地域:{}".format(court_loc))
 
     Param = ','.join(param_list)
+    Param = "全文检索:*"
     Page = 20       #每页几条
     Order = "法院层级"  #排序标准
     Direction = "asc"   #asc正序 desc倒序
     get_data(Param,Page,Order,Direction)
-    # print(get_tree_content(Param))
