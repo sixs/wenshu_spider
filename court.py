@@ -249,9 +249,7 @@ def get_data(Param,Page,Order,Direction):
             number = get_number(guid)
 
         else:
-            print(return_data)
             json_data = json.loads(return_data)
-            print(json_data)
             if not len(json_data):
                 print('采集完成')
                 break
